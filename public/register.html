@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký | Quản lý điểm sinh viên</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <main class="auth-container">
+        <section class="auth-banner">
+            <div class="banner-content">
+                <div class="brand">
+                    <div class="brand-icon">NTU</div>
+                    <span>NGUYỄN TRÃI UNIVERSITY</span>
+                </div>
+
+                <div class="banner-text">
+                    <span class="eyebrow">STUDENT MANAGEMENT SYSTEM</span>
+                    <h1>Bắt đầu hành trình<br>học tập của bạn</h1>
+                    <p>Tạo tài khoản để theo dõi điểm số, học phần và kết quả học tập của bạn trên một nền tảng duy nhất.</p>
+                </div>
+
+                <div class="banner-footer">
+                    © 2026 Nguyễn Trãi University
+                </div>
+            </div>
+        </section>
+
+        <section class="auth-form-section">
+            <div class="auth-form-wrapper">
+                <div class="mobile-brand">NTU - QUẢN LÝ ĐIỂM SINH VIÊN</div>
+
+                <div class="form-heading">
+                    <span class="eyebrow">TẠO TÀI KHOẢN MỚI</span>
+                    <h2>Đăng ký</h2>
+                    <p>Điền thông tin bên dưới để tạo tài khoản sinh viên.</p>
+                </div>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullName">Họ và tên</label>
+                        <input type="text" id="fullName" name="fullName"
+                            placeholder="Nhập họ và tên" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" name="username"
+                            placeholder="Nhập tên đăng nhập" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email"
+                            placeholder="Nhập địa chỉ email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password"
+                                placeholder="Ít nhất 8 ký tự" required minlength="8">
+                            <button type="button" class="toggle-password" data-target="password">Hiện</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Xác nhận mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                placeholder="Nhập lại mật khẩu" required minlength="8">
+                            <button type="button" class="toggle-password" data-target="confirmPassword">Hiện</button>
+                        </div>
+                    </div>
+
+                    <div id="authMessage" class="auth-message"></div>
+
+                    <button type="submit" class="submit-button" id="registerButton">
+                        Tạo tài khoản
+                    </button>
+                </form>
+
+                <div class="form-bottom">
+                    Đã có tài khoản?
+                    <a href="/login.html">Đăng nhập</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

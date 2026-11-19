@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Quản lý điểm sinh viên</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <main class="auth-container">
+        <section class="auth-banner">
+            <div class="banner-content">
+                <div class="brand">
+                    <div class="brand-icon">NTU</div>
+                    <span>NGUYỄN TRÃI UNIVERSITY</span>
+                </div>
+
+                <div class="banner-text">
+                    <span class="eyebrow">STUDENT MANAGEMENT SYSTEM</span>
+                    <h1>Hệ thống quản lý<br>điểm học tập sinh viên</h1>
+                    <p>Nền tảng quản lý học tập hiện đại, hỗ trợ sinh viên và nhà trường theo dõi kết quả học tập một cách thuận tiện.</p>
+                </div>
+
+                <div class="banner-footer">
+                    © 2026 Nguyễn Trãi University
+                </div>
+            </div>
+        </section>
+
+        <section class="auth-form-section">
+            <div class="auth-form-wrapper">
+                <div class="mobile-brand">NTU - QUẢN LÝ ĐIỂM SINH VIÊN</div>
+
+                <div class="form-heading">
+                    <span class="eyebrow">CHÀO MỪNG BẠN TRỞ LẠI</span>
+                    <h2>Đăng nhập</h2>
+                    <p>Vui lòng nhập thông tin tài khoản của bạn.</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập hoặc email</label>
+                        <input type="text" id="username" name="username"
+                            placeholder="Nhập tên đăng nhập hoặc email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password"
+                                placeholder="Nhập mật khẩu" required>
+                            <button type="button" class="toggle-password" data-target="password">Hiện</button>
+                        </div>
+                    </div>
+
+                    <div id="authMessage" class="auth-message"></div>
+
+                    <button type="submit" class="submit-button" id="loginButton">
+                        Đăng nhập
+                    </button>
+                </form>
+
+                <div class="form-bottom">
+                    Chưa có tài khoản?
+                    <a href="/register.html">Đăng ký ngay</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

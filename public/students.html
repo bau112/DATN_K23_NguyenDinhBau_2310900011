@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sinh viên - NTU</title>
+    <link rel="stylesheet" href="/css/students.css">
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div>
+                <div class="brand">NTU <span>ACADEMIC</span></div>
+                <div class="breadcrumb">Hệ thống quản lý điểm sinh viên / Quản lý sinh viên</div>
+            </div>
+            <div class="account">
+                <span id="userName">Quản trị viên</span>
+                <button id="logoutButton" type="button">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="page-heading">
+                <div>
+                    <h1>Quản lý sinh viên</h1>
+                    <p>Danh sách và thông tin sinh viên trong hệ thống</p>
+                </div>
+                <a class="back-button" href="/dashboard.html">Quay lại Dashboard</a>
+            </div>
+
+            <div id="message" class="form-message"></div>
+
+            <section class="toolbar">
+                <input
+                    type="search"
+                    id="keyword"
+                    placeholder="Tìm theo mã sinh viên hoặc họ tên..."
+                >
+
+                <select id="statusFilter">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Active">Đang học</option>
+                    <option value="Inactive">Ngừng học</option>
+                    <option value="Graduated">Đã tốt nghiệp</option>
+                </select>
+
+                <button id="searchButton" type="button">Tìm kiếm</button>
+                <button id="resetButton" class="secondary-button" type="button">Làm mới</button>
+                <button id="addStudentButton" class="add-button" type="button">+ Thêm sinh viên</button>
+            </section>
+
+            <section class="table-card">
+                <div class="table-heading">
+                    <div>
+                        <h2>Danh sách sinh viên</h2>
+                        <p id="totalText">Đang tải dữ liệu...</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sinh viên</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Lớp</th>
+                                <th>Giới tính</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày sinh</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <tr>
+                                <td colspan="9" class="empty">Đang tải dữ liệu...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="previousButton" type="button" disabled>Trang trước</button>
+                    <span id="pageInfo">Trang 1 / 1</span>
+                    <button id="nextButton" type="button" disabled>Trang sau</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Thêm sinh viên</h2>
+                <button id="closeModalButton" type="button">×</button>
+            </div>
+
+            <form id="studentForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="studentCode">Mã sinh viên *</label>
+                        <input id="studentCode" type="text" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName">Họ và tên *</label>
+                        <input id="fullName" type="text" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth">Ngày sinh</label>
+                        <input id="dateOfBirth" type="date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Giới tính</label>
+                        <select id="gender">
+                            <option value="">Chưa cập nhật</option>
+                            <option value="Nam">Nam</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input id="email" type="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input id="phone" type="tel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="classId">Lớp học *</label>
+                        <select id="classId" required>
+                            <option value="">Đang tải danh sách lớp...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="academicYear">Niên khóa</label>
+                        <input id="academicYear" type="text">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address">Địa chỉ</label>
+                        <textarea id="address" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div id="formMessage" class="form-message"></div>
+
+                <div class="form-actions">
+                    <button id="cancelButton" class="cancel-button" type="button">Hủy</button>
+                    <button id="saveStudentButton" class="save-button" type="submit">Lưu sinh viên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/students.js"></script>
+</body>
+</html>

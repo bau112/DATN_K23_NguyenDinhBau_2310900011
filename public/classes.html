@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý lớp học | NTU System</title>
+    <link rel="stylesheet" href="/css/classes.css">
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div>
+                <div class="brand">NTU <span>SYSTEM</span></div>
+                <div class="breadcrumb">Trang chủ / Quản lý lớp học</div>
+            </div>
+
+            <div class="account">
+                <span id="userName">Người dùng</span>
+                <button id="logoutButton" type="button">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="page-heading">
+                <div>
+                    <h1>Quản lý lớp học</h1>
+                    <p>Quản lý thông tin lớp học và giảng viên cố vấn</p>
+                </div>
+                <a href="/dashboard.html" class="back-button">Quay lại Dashboard</a>
+            </section>
+
+            <div id="message" class="message"></div>
+
+            <section class="toolbar">
+                <input
+                    type="text"
+                    id="keywordInput"
+                    placeholder="Tìm theo mã lớp, tên lớp hoặc khoa..."
+                >
+
+                <select id="statusFilter">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Active">Đang hoạt động</option>
+                    <option value="Inactive">Ngừng hoạt động</option>
+                </select>
+
+                <button id="searchButton" type="button">Tìm kiếm</button>
+                <button id="resetButton" type="button" class="secondary-button">Đặt lại</button>
+            </section>
+
+            <section class="table-card">
+                <div class="table-heading">
+                    <div>
+                        <h2>Danh sách lớp học</h2>
+                        <p>Thông tin các lớp học trong hệ thống</p>
+                    </div>
+
+                    <button id="addClassButton" class="add-button" type="button">
+                        + Thêm lớp học
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã lớp</th>
+                                <th>Tên lớp</th>
+                                <th>Khoa</th>
+                                <th>Năm học</th>
+                                <th>Giảng viên cố vấn</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="classTableBody">
+                            <tr>
+                                <td colspan="8" class="empty">Đang tải dữ liệu...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <span id="totalText">Tổng số: 0 lớp học</span>
+
+                    <div>
+                        <button id="previousButton" type="button">Trước</button>
+                        <span id="pageInfo">Trang 1 / 1</span>
+                        <button id="nextButton" type="button">Sau</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="classModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalTitle">Thêm lớp học</h2>
+                    <p>Nhập thông tin lớp học bên dưới</p>
+                </div>
+                <button id="closeModalButton" class="close-button" type="button">&times;</button>
+            </div>
+
+            <form id="classForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="classCode">Mã lớp *</label>
+                        <input
+                            type="text"
+                            id="classCode"
+                            required
+                            maxlength="30"
+                            placeholder="Ví dụ: K23CNT3"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="className">Tên lớp *</label>
+                        <input
+                            type="text"
+                            id="className"
+                            required
+                            maxlength="100"
+                            placeholder="Nhập tên lớp"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="department">Khoa *</label>
+                        <input
+                            type="text"
+                            id="department"
+                            required
+                            maxlength="100"
+                            placeholder="Nhập tên khoa"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="academicYear">Năm học *</label>
+                        <input
+                            type="text"
+                            id="academicYear"
+                            required
+                            maxlength="30"
+                            placeholder="Ví dụ: 2026-2027"
+                        >
+                    </div>
+
+                    <div class="form-group full-width" id="statusGroup">
+                        <label for="status">Trạng thái</label>
+                        <select id="status">
+                            <option value="Active">Đang hoạt động</option>
+                            <option value="Inactive">Ngừng hoạt động</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="formMessage" class="form-message"></div>
+
+                <div class="form-actions">
+                    <button id="cancelButton" class="cancel-button" type="button">
+                        Hủy
+                    </button>
+                    <button id="saveClassButton" class="save-button" type="submit">
+                        Lưu thông tin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/classes.js"></script>
+</body>
+</html>
