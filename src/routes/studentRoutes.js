@@ -5,12 +5,15 @@ const router = express.Router();
 const {
     getStudents,
     getStudentById,
+    getMyStudentProfile,
     createStudent,
     updateStudent,
     deleteStudent
 } = require('../controllers/studentController');
 
 const { protect, authorize } = require('../middleware/authMiddleware');
+
+router.get('/me', protect, authorize('Student'), getMyStudentProfile);
 
 router.get('/', protect, authorize('Admin', 'Teacher'), getStudents);
 

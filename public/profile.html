@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin cá nhân | NTU</title>
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <div class="profile-page">
+        <header class="topbar">
+            <a href="/dashboard.html" class="brand">
+                <div class="brand-logo">NTU</div>
+                <div>
+                    <strong>NTU PORTAL</strong>
+                    <span>CỔNG THÔNG TIN SINH VIÊN</span>
+                </div>
+            </a>
+            <div class="topbar-right">
+                <span id="headerName">Sinh viên</span>
+                <button id="logoutButton">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="breadcrumb">
+                <a href="/dashboard.html">Trang chủ</a>
+                <span>/</span>
+                <span>Thông tin cá nhân</span>
+            </div>
+
+            <section class="page-heading">
+                <div>
+                    <span class="eyebrow">HỒ SƠ SINH VIÊN</span>
+                    <h1>Thông tin cá nhân</h1>
+                    <p>Quản lý và theo dõi thông tin hồ sơ học tập của bạn.</p>
+                </div>
+                <div class="student-status" id="studentStatus">Đang tải...</div>
+            </section>
+
+            <div id="errorMessage" class="error-message hidden"></div>
+
+            <section class="profile-overview">
+                <div class="avatar" id="avatar">
+                    <span id="avatarText">SV</span>
+                </div>
+                <div class="overview-info">
+                    <span class="overview-label">SINH VIÊN</span>
+                    <h2 id="fullName">Đang tải...</h2>
+                    <p id="studentCode">Mã sinh viên: --</p>
+                    <p id="className">Lớp: --</p>
+                </div>
+                <div class="overview-side">
+                    <span>Niên khóa</span>
+                    <strong id="academicYear">--</strong>
+                </div>
+            </section>
+
+            <section class="information-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-number">01</span>
+                        <h3>Thông tin cá nhân</h3>
+                    </div>
+                </div>
+
+                <div class="information-grid">
+                    <div class="info-item">
+                        <label>Mã sinh viên</label>
+                        <strong id="infoStudentCode">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Họ và tên</label>
+                        <strong id="infoFullName">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Ngày sinh</label>
+                        <strong id="dateOfBirth">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Giới tính</label>
+                        <strong id="gender">--</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="information-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-number">02</span>
+                        <h3>Thông tin liên hệ</h3>
+                    </div>
+                </div>
+
+                <div class="information-grid">
+                    <div class="info-item">
+                        <label>Email</label>
+                        <strong id="email">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Số điện thoại</label>
+                        <strong id="phone">--</strong>
+                    </div>
+                    <div class="info-item full-width">
+                        <label>Địa chỉ</label>
+                        <strong id="address">--</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="information-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-number">03</span>
+                        <h3>Thông tin đào tạo</h3>
+                    </div>
+                </div>
+
+                <div class="information-grid">
+                    <div class="info-item">
+                        <label>Mã lớp</label>
+                        <strong id="classCode">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Tên lớp</label>
+                        <strong id="classNameDetail">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Niên khóa</label>
+                        <strong id="academicYearDetail">--</strong>
+                    </div>
+                    <div class="info-item">
+                        <label>Trạng thái học tập</label>
+                        <strong id="statusDetail">--</strong>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                © 2026 - Hệ thống quản lý điểm sinh viên
+            </footer>
+        </main>
+    </div>
+
+    <script src="/js/profile.js"></script>
+</body>
+</html>
