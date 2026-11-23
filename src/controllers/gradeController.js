@@ -7,7 +7,7 @@ const CourseOffering = require('../models/CourseOffering');
 const Enrollment = require('../models/Enrollment');
 
 const calculateGrade = (components) => {
-    const totalWeight = components.reduce((sum, item) => sum + item.weight, 0);
+    const totalWeight = components.reduce((sum, item) => sum + Number(item.weight), 0);
 
     if (Math.abs(totalWeight - 100) > 0.01) {
         throw new Error('Tong trong so cac thanh phan phai bang 100%');
@@ -15,7 +15,7 @@ const calculateGrade = (components) => {
 
     const totalScore = Number(
         components.reduce((sum, item) => {
-            return sum + item.score * item.weight / 100;
+            return sum + Number(item.score) * Number(item.weight) / 100;
         }, 0).toFixed(1)
     );
 
@@ -43,17 +43,21 @@ const calculateGrade = (components) => {
 };
 
 const validateReferences = async (studentId, courseOfferingId) => {
-    if (!mongoose.Types.ObjectId.isValid(studentId) ||
-        !mongoose.Types.ObjectId.isValid(courseOfferingId)) {
+    if (
+        !mongoose.Types.ObjectId.isValid(studentId) ||
+        !mongoose.Types.ObjectId.isValid(courseOfferingId)
+    ) {
         throw new Error('Ma sinh vien hoac ma hoc phan khong hop le');
     }
 
     const student = await Student.findById(studentId);
+
     if (!student) {
         throw new Error('Khong tim thay sinh vien');
     }
 
     const courseOffering = await CourseOffering.findById(courseOfferingId);
+
     if (!courseOffering) {
         throw new Error('Khong tim thay hoc phan');
     }
@@ -67,6 +71,20 @@ const validateReferences = async (studentId, courseOfferingId) => {
     if (!enrollment) {
         throw new Error('Sinh vien chua dang ky hoc phan nay');
     }
+};
+
+const populateGrade = (query) => {
+    return query
+        .populate('studentId', 'studentCode fullName')
+        .populate({
+            path: 'courseOfferingId',
+            populate: [
+                { path: 'subjectId', select: 'subjectCode subjectName credits' },
+                { path: 'semesterId', select: 'semesterCode semesterName academicYear' },
+                { path: 'classId', select: 'classCode className' },
+                { path: 'teacherId', select: 'fullName username' }
+            ]
+        });
 };
 
 const getGrades = async (req, res) => {
@@ -85,28 +103,20 @@ const getGrades = async (req, res) => {
         if (courseOfferingId) filter.courseOfferingId = courseOfferingId;
         if (result) filter.result = result;
 
-        const currentPage = Math.max(1, Number(page));
-        const pageSize = Math.min(100, Math.max(1, Number(limit)));
+        const currentPage = Math.max(1, Number(page) || 1);
+        const pageSize = Math.min(100, Math.max(1, Number(limit) || 10));
 
         const [grades, total] = await Promise.all([
-            Grade.find(filter)
-                .populate('studentId', 'studentCode fullName')
-                .populate({
-                    path: 'courseOfferingId',
-                    populate: [
-                        { path: 'subjectId', select: 'subjectCode subjectName credits' },
-                        { path: 'semesterId', select: 'semesterCode semesterName academicYear' },
-                        { path: 'classId', select: 'classCode className' },
-                        { path: 'teacherId', select: 'fullName username' }
-                    ]
-                })
-                .sort({ createdAt: -1 })
-                .skip((currentPage - 1) * pageSize)
-                .limit(pageSize),
+            populateGrade(
+                Grade.find(filter)
+                    .sort({ createdAt: -1 })
+                    .skip((currentPage - 1) * pageSize)
+                    .limit(pageSize)
+            ),
             Grade.countDocuments(filter)
         ]);
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             total,
             currentPage,
@@ -114,7 +124,41 @@ const getGrades = async (req, res) => {
             data: grades
         });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+const getMyGrades = async (req, res) => {
+    try {
+        if (req.user.role !== 'Student') {
+            return res.status(403).json({
+                success: false,
+                message: 'Khong co quyen truy cap'
+            });
+        }
+
+        if (!req.user.studentId) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tai khoan chua duoc lien ket voi ho so sinh vien'
+            });
+        }
+
+        const grades = await populateGrade(
+            Grade.find({ studentId: req.user.studentId })
+                .sort({ createdAt: -1 })
+        );
+
+        return res.status(200).json({
+            success: true,
+            total: grades.length,
+            data: grades
+        });
+    } catch (error) {
+        return res.status(500).json({
             success: false,
             message: error.message
         });
@@ -123,17 +167,16 @@ const getGrades = async (req, res) => {
 
 const getGradeById = async (req, res) => {
     try {
-        const grade = await Grade.findById(req.params.id)
-            .populate('studentId', 'studentCode fullName')
-            .populate({
-                path: 'courseOfferingId',
-                populate: [
-                    { path: 'subjectId', select: 'subjectCode subjectName credits' },
-                    { path: 'semesterId', select: 'semesterCode semesterName academicYear' },
-                    { path: 'classId', select: 'classCode className' },
-                    { path: 'teacherId', select: 'fullName username' }
-                ]
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Ma diem khong hop le'
             });
+        }
+
+        const grade = await populateGrade(
+            Grade.findById(req.params.id)
+        );
 
         if (!grade) {
             return res.status(404).json({
@@ -142,12 +185,12 @@ const getGradeById = async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             data: grade
         });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: error.message
         });
@@ -158,7 +201,12 @@ const createGrade = async (req, res) => {
     try {
         const { studentId, courseOfferingId, components } = req.body;
 
-        if (!studentId || !courseOfferingId || !Array.isArray(components) || components.length === 0) {
+        if (
+            !studentId ||
+            !courseOfferingId ||
+            !Array.isArray(components) ||
+            components.length === 0
+        ) {
             return res.status(400).json({
                 success: false,
                 message: 'Vui long cung cap sinh vien, hoc phan va cac thanh phan diem'
@@ -205,17 +253,17 @@ const createGrade = async (req, res) => {
             ...calculated
         });
 
-        const populatedGrade = await Grade.findById(grade._id)
-            .populate('studentId', 'studentCode fullName')
-            .populate('courseOfferingId');
+        const populatedGrade = await populateGrade(
+            Grade.findById(grade._id)
+        );
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: 'Them diem thanh cong',
             data: populatedGrade
         });
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: error.message
         });
@@ -224,6 +272,13 @@ const createGrade = async (req, res) => {
 
 const updateGrade = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Ma diem khong hop le'
+            });
+        }
+
         const grade = await Grade.findById(req.params.id);
 
         if (!grade) {
@@ -253,10 +308,10 @@ const updateGrade = async (req, res) => {
                 !item.name ||
                 !Number.isFinite(Number(item.score)) ||
                 !Number.isFinite(Number(item.weight)) ||
-                item.score < 0 ||
-                item.score > 10 ||
-                item.weight <= 0 ||
-                item.weight > 100
+                Number(item.score) < 0 ||
+                Number(item.score) > 10 ||
+                Number(item.weight) <= 0 ||
+                Number(item.weight) > 100
             ) {
                 return res.status(400).json({
                     success: false,
@@ -288,17 +343,17 @@ const updateGrade = async (req, res) => {
 
         await grade.save();
 
-        const populatedGrade = await Grade.findById(grade._id)
-            .populate('studentId', 'studentCode fullName')
-            .populate('courseOfferingId');
+        const populatedGrade = await populateGrade(
+            Grade.findById(grade._id)
+        );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: 'Cap nhat diem thanh cong',
             data: populatedGrade
         });
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: error.message
         });
@@ -307,6 +362,13 @@ const updateGrade = async (req, res) => {
 
 const deleteGrade = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Ma diem khong hop le'
+            });
+        }
+
         const grade = await Grade.findByIdAndDelete(req.params.id);
 
         if (!grade) {
@@ -316,12 +378,12 @@ const deleteGrade = async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: 'Xoa diem thanh cong'
         });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: error.message
         });
@@ -330,6 +392,7 @@ const deleteGrade = async (req, res) => {
 
 module.exports = {
     getGrades,
+    getMyGrades,
     getGradeById,
     createGrade,
     updateGrade,

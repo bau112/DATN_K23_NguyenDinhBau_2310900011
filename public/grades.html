@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả học tập | NTU</title>
+    <link rel="stylesheet" href="/css/grades.css">
+</head>
+<body>
+    <div class="grades-page">
+        <header class="topbar">
+            <a href="/dashboard.html" class="brand">
+                <div class="brand-logo">NTU</div>
+                <div>
+                    <strong>NTU PORTAL</strong>
+                    <span>CỔNG THÔNG TIN SINH VIÊN</span>
+                </div>
+            </a>
+
+            <div class="topbar-right">
+                <span id="headerName">Sinh viên</span>
+                <button id="logoutButton">Đăng xuất</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="breadcrumb">
+                <a href="/dashboard.html">Trang chủ</a>
+                <span>/</span>
+                <span>Kết quả học tập</span>
+            </div>
+
+            <section class="page-heading">
+                <div>
+                    <span class="eyebrow">TRA CỨU HỌC TẬP</span>
+                    <h1>Kết quả học tập</h1>
+                    <p>Theo dõi điểm số và tiến độ học tập của bạn qua từng học kỳ.</p>
+                </div>
+                <div class="student-status">BẢNG ĐIỂM SINH VIÊN</div>
+            </section>
+
+            <div id="errorMessage" class="error-message hidden"></div>
+
+            <section class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon blue">▤</div>
+                    <div>
+                        <span>Tổng học phần</span>
+                        <strong id="totalCourses">0</strong>
+                        <small>Học phần đã có điểm</small>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon green">✓</div>
+                    <div>
+                        <span>Học phần đạt</span>
+                        <strong id="passedCourses">0</strong>
+                        <small>Đã hoàn thành</small>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon red">!</div>
+                    <div>
+                        <span>Học phần chưa đạt</span>
+                        <strong id="failedCourses">0</strong>
+                        <small>Cần cải thiện kết quả</small>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon purple">★</div>
+                    <div>
+                        <span>Điểm trung bình</span>
+                        <strong id="averageScore">--</strong>
+                        <small>Thang điểm 10</small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="result-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-number">01</span>
+                        <div>
+                            <h2>Bảng điểm chi tiết</h2>
+                            <p>Thông tin kết quả các học phần đã được ghi nhận.</p>
+                        </div>
+                    </div>
+                    <span id="resultCount" class="result-count">0 học phần</span>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-item">
+                        <label for="semesterFilter">Học kỳ</label>
+                        <select id="semesterFilter">
+                            <option value="">Tất cả học kỳ</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="statusFilter">Kết quả</label>
+                        <select id="statusFilter">
+                            <option value="">Tất cả kết quả</option>
+                            <option value="Passed">Đạt</option>
+                            <option value="Failed">Chưa đạt</option>
+                            <option value="Pending">Chưa có kết quả</option>
+                        </select>
+                    </div>
+
+                    <button id="resetFilter" class="reset-button">Đặt lại bộ lọc</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã học phần</th>
+                                <th>Tên học phần</th>
+                                <th>Tín chỉ</th>
+                                <th>Học kỳ</th>
+                                <th>Điểm số</th>
+                                <th>Điểm chữ</th>
+                                <th>Kết quả</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesTableBody">
+                            <tr>
+                                <td colspan="9" class="loading-cell">Đang tải dữ liệu...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="emptyState" class="empty-state hidden">
+                    <div class="empty-icon">▤</div>
+                    <h3>Chưa có dữ liệu điểm</h3>
+                    <p>Kết quả học tập sẽ hiển thị tại đây khi được cập nhật.</p>
+                </div>
+            </section>
+
+            <section class="note-section">
+                <strong>Lưu ý:</strong>
+                <p>Điểm số hiển thị được lấy từ hệ thống quản lý điểm. Nếu phát hiện thông tin chưa chính xác, vui lòng liên hệ phòng đào tạo hoặc giảng viên phụ trách.</p>
+            </section>
+
+            <footer class="page-footer">
+                © 2026 - Hệ thống quản lý điểm sinh viên
+            </footer>
+        </main>
+    </div>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <span class="eyebrow">CHI TIẾT KẾT QUẢ</span>
+                    <h2 id="modalSubjectName">Thông tin học phần</h2>
+                </div>
+                <button id="closeModal" class="close-button">×</button>
+            </div>
+
+            <div class="modal-info">
+                <div>
+                    <span>Mã học phần</span>
+                    <strong id="modalSubjectCode">--</strong>
+                </div>
+                <div>
+                    <span>Số tín chỉ</span>
+                    <strong id="modalCredits">--</strong>
+                </div>
+                <div>
+                    <span>Điểm tổng kết</span>
+                    <strong id="modalTotalScore">--</strong>
+                </div>
+                <div>
+                    <span>Điểm chữ</span>
+                    <strong id="modalLetterGrade">--</strong>
+                </div>
+            </div>
+
+            <h3 class="component-title">Các thành phần điểm</h3>
+
+            <div class="component-table-wrapper">
+                <table class="component-table">
+                    <thead>
+                        <tr>
+                            <th>Thành phần</th>
+                            <th>Điểm</th>
+                            <th>Trọng số</th>
+                        </tr>
+                    </thead>
+                    <tbody id="componentTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button id="closeModalBottom">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/grades.js"></script>
+</body>
+</html>

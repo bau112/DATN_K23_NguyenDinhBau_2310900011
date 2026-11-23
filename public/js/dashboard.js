@@ -131,9 +131,9 @@ function renderMenu(user) {
 
         Student: [
             ['⌂', 'Tổng quan', '/dashboard.html'],
-            ['♙', 'Thông tin cá nhân', '#'],
+            ['♙', 'Thông tin cá nhân', '/profile.html'],
             ['▧', 'Học phần của tôi', '#'],
-            ['▨', 'Kết quả học tập', '#'],
+            ['▨', 'Kết quả học tập','/grades.html', '#'],
             ['◷', 'Lịch sử điểm danh', '#']
         ]
     };

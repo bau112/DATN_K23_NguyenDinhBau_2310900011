@@ -1,0 +1,388 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #173b68;
+    --primary-dark: #102b4d;
+    --accent: #d5a94f;
+    --background: #f3f6fa;
+    --text: #26364a;
+    --muted: #718096;
+    --border: #e5eaf1;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.profile-page {
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 76px;
+    background: var(--white);
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(20, 45, 75, 0.04);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.brand strong {
+    display: block;
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.brand span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-weight: 600;
+}
+
+#logoutButton {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--primary);
+    padding: 9px 17px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+#logoutButton:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.container {
+    width: 86%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 0 20px;
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.eyebrow {
+    color: #b18a3c;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.page-heading h1 {
+    color: var(--primary-dark);
+    font-size: 28px;
+    font-weight: 800;
+    margin: 5px 0;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.student-status {
+    background: #e6f5ed;
+    color: #218453;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.profile-overview {
+    background: linear-gradient(115deg, #173b68, #285987);
+    border-radius: 12px;
+    padding: 30px 35px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    color: white;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 22px rgba(23, 59, 104, 0.13);
+}
+
+.avatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.17);
+    border: 3px solid rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.overview-info {
+    flex: 1;
+}
+
+.overview-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    opacity: 0.75;
+}
+
+.overview-info h2 {
+    font-size: 23px;
+    margin: 4px 0 8px;
+    font-weight: 700;
+}
+
+.overview-info p {
+    font-size: 12px;
+    margin-top: 3px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.overview-side {
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    padding-left: 35px;
+    min-width: 160px;
+}
+
+.overview-side span {
+    display: block;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.overview-side strong {
+    display: block;
+    font-size: 19px;
+    margin-top: 5px;
+}
+
+.information-section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 23px 27px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(25, 50, 80, 0.025);
+}
+
+.section-heading {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.section-heading > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-number {
+    width: 31px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    color: var(--primary);
+    background: #edf3fa;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.section-heading h3 {
+    color: var(--primary-dark);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.information-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 35px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.info-item strong {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.error-message {
+    background: #fff0f0;
+    border: 1px solid #ffd1d1;
+    color: #bd3535;
+    padding: 13px 17px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.page-footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 25px 0 10px;
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        padding: 0 5%;
+        height: 68px;
+    }
+
+    .brand span {
+        font-size: 8px;
+    }
+
+    .topbar-right {
+        gap: 8px;
+    }
+
+    #headerName {
+        display: none;
+    }
+
+    .container {
+        width: 92%;
+        padding-top: 22px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .page-heading h1 {
+        font-size: 23px;
+    }
+
+    .profile-overview {
+        padding: 22px;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .avatar {
+        width: 65px;
+        height: 65px;
+        font-size: 21px;
+    }
+
+    .overview-info h2 {
+        font-size: 17px;
+    }
+
+    .overview-side {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 15px 0 0;
+    }
+
+    .information-section {
+        padding: 19px;
+    }
+
+    .information-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .info-item.full-width {
+        grid-column: auto;
+    }
+}
