@@ -1,9 +1,15 @@
-
 const express = require('express');
 const router = express.Router();
 
 const attendanceController = require('../controllers/attendanceController');
 const { protect, authorize } = require('../middleware/authMiddleware');
+
+router.get(
+    '/my-attendance',
+    protect,
+    authorize('Student'),
+    attendanceController.getMyAttendance
+);
 
 router.get(
     '/',

@@ -45,6 +45,52 @@ const getEnrollments = async (req, res) => {
     }
 };
 
+const getMyEnrollments = async (req, res) => {
+    try {
+        const studentId = req.user.studentId;
+
+        if (!studentId) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tai khoan chua duoc lien ket voi ho so sinh vien'
+            });
+        }
+
+        const student = await Student.findById(studentId);
+
+        if (!student) {
+            return res.status(404).json({
+                success: false,
+                message: 'Khong tim thay ho so sinh vien'
+            });
+        }
+
+        const enrollments = await Enrollment.find({
+            studentId: student._id
+        })
+            .populate({
+                path: 'courseOfferingId',
+                populate: [
+                    { path: 'subjectId', select: 'subjectCode subjectName credits' },
+                    { path: 'semesterId', select: 'semesterCode semesterName academicYear' },
+                    { path: 'teacherId', select: 'username fullName email' }
+                ]
+            })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            total: enrollments.length,
+            data: enrollments
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 const getEnrollmentById = async (req, res) => {
     try {
         const enrollment = await Enrollment.findById(req.params.id)
@@ -90,7 +136,7 @@ const createEnrollment = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: 'Hoc phan khong ton tai hoac khong mo dang ky'
-             });
+            });
         }
 
         const existingEnrollment = await Enrollment.findOne({
@@ -204,6 +250,7 @@ const deleteEnrollment = async (req, res) => {
 
 module.exports = {
     getEnrollments,
+    getMyEnrollments,
     getEnrollmentById,
     createEnrollment,
     updateEnrollment,

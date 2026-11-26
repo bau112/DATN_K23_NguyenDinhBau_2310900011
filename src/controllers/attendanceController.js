@@ -60,6 +60,66 @@ const getAttendances = async (req, res) => {
     }
 };
 
+const getMyAttendance = async (req, res) => {
+    try {
+        if (!req.user.studentId) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tai khoan chua duoc lien ket voi ho so sinh vien'
+            });
+        }
+
+        const student = await Student.findById(req.user.studentId);
+
+        if (!student) {
+            return res.status(404).json({
+                success: false,
+                message: 'Khong tim thay ho so sinh vien'
+            });
+        }
+
+        const currentPage = Math.max(1, Number(req.query.page) || 1);
+        const pageSize = Math.max(1, Math.min(100, Number(req.query.limit) || 10));
+
+        const filter = {
+            studentId: student._id
+        };
+
+        if (req.query.attendanceStatus) {
+            filter.attendanceStatus = req.query.attendanceStatus;
+        }
+
+        const total = await Attendance.countDocuments(filter);
+
+        const data = await Attendance.find(filter)
+            .populate({
+                path: 'courseOfferingId',
+                select: 'courseCode subjectId semesterId classId',
+                populate: [
+                    { path: 'subjectId', select: 'subjectCode subjectName credits' },
+                    { path: 'semesterId', select: 'semesterCode semesterName academicYear' },
+                    { path: 'classId', select: 'classCode className' }
+                ]
+            })
+            .sort({ sessionDate: -1, sessionNumber: 1 })
+            .skip((currentPage - 1) * pageSize)
+            .limit(pageSize);
+
+        return res.status(200).json({
+            success: true,
+            total,
+            currentPage,
+            totalPages: Math.ceil(total / pageSize),
+            data
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 const getAttendanceById = async (req, res) => {
     try {
         const attendance = await Attendance.findById(req.params.id)
@@ -263,6 +323,7 @@ const deleteAttendance = async (req, res) => {
 
 module.exports = {
     getAttendances,
+    getMyAttendance,
     getAttendanceById,
     createAttendance,
     updateAttendance,
